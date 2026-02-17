@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Webcam from "react-webcam";
 import PhotoStudio from "./PhotoStudio";
+import { PHOTO_BOOTH_CONFIG } from "../config";
 import "./PhotoBooth.css";
 
 const PhotoBooth = () => {
@@ -12,7 +13,6 @@ const PhotoBooth = () => {
 
   const handleCoinClick = () => {
     setCurtainOpen(true);
-
     setTimeout(() => {
       setShowStudio(true);
     }, 1000);
@@ -24,30 +24,46 @@ const PhotoBooth = () => {
 
   return (
     <div className="booth-container">
-      <div className="booth-header">Shreyash PhotoBooth😏🐼</div>
+      <header className="booth-header">
+        <h1>{PHOTO_BOOTH_CONFIG.appName}😏🐼</h1>
+      </header>
 
-      <div className="booth-body">
-        <div className="coin-slot">
-          {!coinInserted ? (
-            <p className="insert-text" onClick={handleInsertClick}>
-              INSERT
-              <br />
-              COIN HERE
-            </p>
-          ) : (
-            <div className="coin" onClick={handleCoinClick}></div>
-          )}
-        </div>
+      <main className="booth-body">
+        <aside className="coin-slot-section">
+          <div className="coin-slot">
+            {!coinInserted ? (
+              <button
+                className="insert-coin-btn"
+                onClick={handleInsertClick}
+                aria-label="Insert coin"
+              >
+                INSERT
+                <br />
+                COIN HERE
+              </button>
+            ) : (
+              <div
+                className="coin-token"
+                onClick={handleCoinClick}
+                role="button"
+                aria-label="Click to start booth"
+              />
+            )}
+            <div className="slot-visual" />
+          </div>
+        </aside>
 
-        <div className="curtain-wrapper">
-          <Webcam
-            audio={false}
-            screenshotFormat="image/jpeg"
-            className="webcam-preview"
-          />
-          <div className={`curtain ${curtainOpen ? "open" : ""}`} />
-        </div>
-      </div>
+        <section className="curtain-container">
+          <div className="webcam-preview-wrapper">
+            <Webcam
+              audio={false}
+              screenshotFormat="image/jpeg"
+              className="webcam-preview"
+            />
+          </div>
+          <div className={`booth-curtain ${curtainOpen ? "is-open" : ""}`} />
+        </section>
+      </main>
     </div>
   );
 };
