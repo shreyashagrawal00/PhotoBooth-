@@ -24,7 +24,7 @@ const PhotoBooth = () => {
 
   return (
     <div className="booth-container">
-      <div className="booth-header">Dv PhotoBooth</div>
+      <div className="booth-header">Shreyash PhotoBooth😏🐼</div>
 
       <div className="booth-body">
         <div className="coin-slot">
