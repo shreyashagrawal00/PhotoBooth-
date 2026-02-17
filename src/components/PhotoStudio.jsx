@@ -9,6 +9,7 @@ const PhotoStudio = () => {
   const [selectedFilter, setSelectedFilter] = useState(PHOTO_BOOTH_CONFIG.filters[0]);
   const [photos, setPhotos] = useState([]);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [isAwaitingChoice, setIsAwaitingChoice] = useState(false);
   const [countdown, setCountdown] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const webcamRef = useRef(null);
@@ -32,30 +33,39 @@ const PhotoStudio = () => {
     ]);
   }, [selectedFilter]);
 
-  const startPhotoSequence = async () => {
+  const captureNextPhoto = async () => {
     setIsCapturing(true);
-    setPhotos([]);
-    setShowResult(false);
+    setIsAwaitingChoice(false);
 
-    for (let i = 0; i < PHOTO_BOOTH_CONFIG.photosPerStrip; i++) {
-      for (let count = PHOTO_BOOTH_CONFIG.countdownDuration; count > 0; count--) {
-        setCountdown(count);
-        await new Promise((r) => setTimeout(r, 1000));
-      }
-      setCountdown("Smile!");
-      await takePhoto();
-      await new Promise((r) => setTimeout(r, 500));
-      setCountdown(null);
-      await new Promise((r) => setTimeout(r, PHOTO_BOOTH_CONFIG.interPhotoDelay));
+    // If we're starting a new strip from scratch or continuing
+    if (showResult) {
+      setPhotos([]);
+      setShowResult(false);
     }
 
+    for (let count = PHOTO_BOOTH_CONFIG.countdownDuration; count > 0; count--) {
+      setCountdown(count);
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+
+    setCountdown("Smile!");
+    await takePhoto();
+    await new Promise((r) => setTimeout(r, 500));
+    setCountdown(null);
+
     setIsCapturing(false);
+    setIsAwaitingChoice(true);
+  };
+
+  const handleFinishStrip = () => {
+    setIsAwaitingChoice(false);
     setShowResult(true);
   };
 
   const handleReshoot = () => {
     setPhotos([]);
     setShowResult(false);
+    setIsAwaitingChoice(false);
   };
 
   const handleDownload = async () => {
@@ -119,6 +129,14 @@ const PhotoStudio = () => {
                     mirrored={true}
                   />
                 </div>
+
+                {photos.length > 0 && !isCapturing && (
+                  <div className="mini-strip-preview">
+                    {photos.map((p, i) => (
+                      <img key={i} src={p.src} alt="Captured" className="mini-thumb" />
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="filter-controls">
@@ -134,14 +152,34 @@ const PhotoStudio = () => {
                 ))}
               </div>
 
-              <button
-                className="trigger-btn"
-                onClick={startPhotoSequence}
-                disabled={isCapturing}
-                aria-label="Start photo sequence"
-              >
-                {isCapturing ? "📸..." : "📸 TAKE PHOTOS"}
-              </button>
+              {!isAwaitingChoice ? (
+                <button
+                  className="trigger-btn"
+                  onClick={captureNextPhoto}
+                  disabled={isCapturing}
+                  aria-label="Take photo"
+                >
+                  {isCapturing ? "📸..." : photos.length > 0 ? "📸 ADD ANOTHER" : "📸 TAKE PHOTO"}
+                </button>
+              ) : (
+                <Motion.div
+                  className="choice-overlay"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <p className="choice-msg">Nice shot! What's next?</p>
+                  <div className="choice-buttons">
+                    {photos.length < PHOTO_BOOTH_CONFIG.photosPerStrip && (
+                      <button className="btn-choice-add" onClick={captureNextPhoto}>
+                        ➕ Add Another
+                      </button>
+                    )}
+                    <button className="btn-choice-finish" onClick={handleFinishStrip}>
+                      ✅ Finish & Download
+                    </button>
+                  </div>
+                </Motion.div>
+              )}
             </section>
           </Motion.div>
         ) : (
