@@ -101,9 +101,9 @@ const PhotoStudio = () => {
                   {countdown && (
                     <Motion.div
                       className="countdown-toast"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1.5, opacity: 1 }}
-                      exit={{ scale: 2, opacity: 0 }}
+                      initial={{ scale: 0, x: "-50%", y: "-50%", opacity: 0 }}
+                      animate={{ scale: 1.5, x: "-50%", y: "-50%", opacity: 1 }}
+                      exit={{ scale: 2, x: "-50%", y: "-50%", opacity: 0 }}
                     >
                       {countdown}
                     </Motion.div>
