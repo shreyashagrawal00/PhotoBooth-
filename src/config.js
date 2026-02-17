@@ -1,6 +1,6 @@
 export const PHOTO_BOOTH_CONFIG = {
   appName: "Shreyash PhotoBooth",
-  captionPrefix: "dvBooth",
+  captionPrefix: "Shreyash Booth",
   photosPerStrip: 3,
   countdownDuration: 3, // seconds
   interPhotoDelay: 500, // ms
@@ -46,6 +46,36 @@ export const PHOTO_BOOTH_CONFIG = {
       name: "Crosshatch",
       cssClass: "crosshatch",
       filterStyle: "grayscale(0.5) blur(1px)",
+    },
+    {
+      id: "vaporwave",
+      name: "Vaporwave",
+      cssClass: "vaporwave",
+      filterStyle: "hue-rotate(280deg) saturate(2) contrast(1.1)",
+    },
+    {
+      id: "crt",
+      name: "CRT",
+      cssClass: "crt",
+      filterStyle: "brightness(1.2) contrast(1.2)",
+    },
+    {
+      id: "forest",
+      name: "Forest",
+      cssClass: "forest",
+      filterStyle: "sepia(0.2) hue-rotate(80deg) saturate(1.5)",
+    },
+    {
+      id: "sunset",
+      name: "Sunset",
+      cssClass: "sunset",
+      filterStyle: "sepia(0.5) hue-rotate(-30deg) saturate(2) brightness(0.9)",
+    },
+    {
+      id: "polaroid",
+      name: "Polaroid",
+      cssClass: "polaroid",
+      filterStyle: "contrast(0.9) brightness(1.1) saturate(0.8) sepia(0.1)",
     },
   ],
 };

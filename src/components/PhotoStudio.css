@@ -1,5 +1,5 @@
 .studio-root {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   background-size: 100px 100px;
   animation: cartoonBackground 20s linear infinite;
   font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 @keyframes cartoonBackground {
@@ -160,20 +160,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 440px;
+  max-width: 400px;
   width: 100%;
 }
 
 .result-card {
   background: #ffffff;
-  padding: 28px;
+  padding: 20px;
   border-radius: 40px;
   box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.1);
   border: 6px solid #333;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .photostrip-container {
@@ -185,7 +185,7 @@
 .photostrip-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
@@ -377,6 +377,28 @@
 
 .crosshatch {
   filter: grayscale(0.5) blur(0.5px);
+}
+
+.vaporwave {
+  filter: hue-rotate(280deg) saturate(2) contrast(1.1) brightness(1.1);
+}
+
+.crt {
+  filter: brightness(1.5) contrast(1.2) sepia(0.1);
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+}
+
+.forest {
+  filter: sepia(0.2) hue-rotate(80deg) saturate(1.8) brightness(0.95);
+}
+
+.sunset {
+  filter: sepia(0.5) hue-rotate(-30deg) saturate(2.5) brightness(0.9);
+}
+
+.polaroid {
+  filter: contrast(0.85) brightness(1.1) saturate(0.7) sepia(0.15);
 }
 
 /* Grain effect for 90s */
